@@ -2,26 +2,54 @@
 import click
 import logging
 from pathlib import Path
-from os.path import join
 from dotenv import find_dotenv, load_dotenv
-
+import os
 import pandas as pd
+import requests
+
+
+def download_external(url, path):
+    logging.info('Download Starting')
+
+    r = requests.get(url)
+
+    # this will take only -1 splitted part of the url
+    filename = url.split(os.path.sep)[-1]
+
+    with open(os.path.join(path, filename), 'wb') as output_file:
+        output_file.write(r.content)
+
+    logging.info('Download Completed')
 
 
 @click.command()
-@click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
-def main(input_filepath, output_filepath):
+@click.argument('external_filepath', type=click.Path(exists=True))
+@click.argument('raw_filepath', type=click.Path(exists=True))
+@click.argument('interim_filepath', type=click.Path())
+def main(external_filepath, raw_filepath, interim_filepath):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
     logger = logging.getLogger(__name__)
-    logger.info('making final data set from raw data')
+    logger.info('Downloading and processing data set')
 
-    # Processing of data
-    iris = pd.read_csv(join(input_filepath, "IRIS.csv"))
+    # download data
+    base_url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/'
+    download_external(base_url + 'iris.data', external_filepath)
+    download_external(base_url + 'iris.names', external_filepath)
+
+    # create dataframe
+    columns = ["sepal_length", "sepal_width",
+               "petal_length", "petal_width", "species"]
+    iris = pd.read_csv(os.path.join(
+        external_filepath, "iris.data"), header=None, names=columns)
+    # save raw version
+    iris.to_csv(os.path.join(raw_filepath, "IRIS.csv"), index=None)
+
+    # process data and save final dataset
     iris["petal_width"] = iris["petal_width"]*1.2
-    iris.to_csv(join(output_filepath, "iris_processed.csv"), index=None)
+    iris.to_csv(os.path.join(interim_filepath,
+                "iris_processed.csv"), index=None)
 
 
 if __name__ == '__main__':
