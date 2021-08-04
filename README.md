@@ -75,5 +75,24 @@ cd iris_cookiecutter
 ```
 make create_environment
 source activate iris_cookiecutter
-pip install -r requirements.txt
+
+```
+
+## Running processes
+
+Use `make`
+
+```
+build               Build all
+clean               Delete all compiled Python files
+create_environment  Set up python interpreter environment
+data                Make Dataset
+features            Make Features
+lint                Lint using flake8
+model               Build Models and Predict
+requirements        Install Python Dependencies
+sync_data_from_s3   Download Data from S3
+sync_data_to_s3     Upload Data to S3
+test_environment    Test python environment is setup correctly
+visualizations      Make Data Visualizations
 ```
