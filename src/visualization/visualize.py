@@ -37,6 +37,10 @@ def main(input_filepath, output_filepath):
     sns.pairplot(iris, hue='species', height=3, diag_kind="kde")
     plt.savefig(join(output_filepath, "figure.pdf"))
 
+    # create and save latex table
+    df = iris.head(10)
+    df.to_latex(join(output_filepath, "my_table.tex"))
+
 
 if __name__ == '__main__':
     log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
