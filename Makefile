@@ -9,6 +9,7 @@ BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
 PROFILE = default
 PROJECT_NAME = iris_cookiecutter
 PYTHON_INTERPRETER = python3
+PDFLATEX = /Library/TeX/texbin/pdflatex
 
 ifeq (,$(shell which conda))
 HAS_CONDA=False
@@ -27,7 +28,7 @@ requirements: test_environment
 
 ## Make Dataset
 data:
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/interim
+	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/external data/raw data/interim
 
 ## Make Features
 features:
@@ -42,8 +43,11 @@ model:
 visualizations:
 	$(PYTHON_INTERPRETER) src/visualization/visualize.py  data/raw reports/figures
 
+report:
+	cd reports; $(PDFLATEX) main.tex
+
 ## Build all
-build: clean requirements data features model visualizations
+build: clean requirements data features model visualizations report
 
 ## Delete all compiled Python files
 clean:
@@ -52,6 +56,11 @@ clean:
 	find . -name "*.pdf" -delete
 	find . -name "*.pkl" -delete
 	find . -name "*.csv" -delete
+	find . -name "*.data" -delete
+	find . -name "*.names" -delete
+	find . -name "*.log" -delete
+	find . -name "*.aux" -delete
+
 
 
 ## Lint using flake8
