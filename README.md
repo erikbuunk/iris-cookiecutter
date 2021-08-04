@@ -109,3 +109,18 @@ visualizations      Make Data Visualizations
 ```bash
 make create_environment
 ```
+
+> conda activate ??
+
+4. run the project
+
+```bash
+make build
+```
+
+This will install the libraries and process everything
+
+## Changes:
+
+Markdown support
+https://www.sphinx-doc.org/en/master/usage/markdown.html?highlight=markdown
