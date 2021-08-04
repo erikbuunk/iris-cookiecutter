@@ -83,6 +83,8 @@ source activate iris_cookiecutter
 Use `make`
 
 ```
+Available rules:
+
 build               Build all
 clean               Delete all compiled Python files
 create_environment  Set up python interpreter environment
@@ -95,4 +97,15 @@ sync_data_from_s3   Download Data from S3
 sync_data_to_s3     Upload Data to S3
 test_environment    Test python environment is setup correctly
 visualizations      Make Data Visualizations
+```
+
+# Step for reproduction
+
+1. clone the project
+2. update GLOBAL in Makefile
+
+3. create virtual environment
+
+```bash
+make create_environment
 ```
