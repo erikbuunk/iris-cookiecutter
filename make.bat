@@ -1,3 +1,4 @@
+SETLOCAL
 @REM #################################################################################
 @REM # GLOBALS                                                                       #
 @REM #################################################################################
@@ -10,6 +11,43 @@
 @SET PDFLATEX=C:\Users\buue\AppData\Local\Programs\MiKTeX\miktex\bin\x64\pdflatex.exe
 @SET CONDA=C:\Users\buue\Anaconda3\condabin\conda.bat
 @SET HAS_CONDA=True
+
+
+@REM ###################################
+@REM Handle commandline arguments
+@REM ###################################
+
+echo %1%
+
+if %1%==test_environment CALL :test_environment
+if %1%==create_environment CALL :create_environment
+if %1%==requirements CALL :requirements
+if %1%==data (
+	CALL :data
+)
+if %1%==features CALL :features
+if %1%==model call :model
+if %1%==visualizations call :visualizations
+if %1%==report call :report
+if %1%==build CALL :build
+
+
+
+@REM Delete all compiled Python files
+if %1%==clean (
+	@REM 	find . -type f -name "*.py[co]" -delete
+	@REM 	find . -type d -name "__pycache__" -delete
+	@REM 	find . -name "*.pdf" -delete
+	@REM 	find . -name "*.pkl" -delete
+	@REM 	find . -name "*.csv" -delete
+	@REM 	find . -name "*.data" -delete
+	@REM 	find . -name "*.names" -delete
+	@REM 	find . -name "*.log" -delete
+	@REM 	find . -name "*.aux" -delete
+)
+
+@REM Exit/Separate form the functions
+exit /B %ERRORLEVEL%
 
 @REM #################################################################################
 @REM # COMMANDS                                                                      #
@@ -29,7 +67,7 @@ EXIT /B 0
 @echo requirements
 conda update -n base -c defaults conda
 conda activate %PROJECT_NAME%
-%PYTHON_INTERPRETER% test_environment.py
+@REM %PYTHON_INTERPRETER% test_environment.py
 %PYTHON_INTERPRETER% -m pip install --user -U pip setuptools wheel
 pip install --user -r ./requirements.txt
 EXIT /B 0
@@ -85,35 +123,3 @@ exit /b 0
 	CALL report
 EXIT /B 0
 
-
-@REM ###################################
-@REM Handle commandline arguments
-@REM ###################################
-
-if %1%==test_environment CALL :test_environment
-
-if %1%==create_environment CALL :create_environment
-
-if %1%==requirements CALL :requirements
-
-if %1%==data CALL :data
-if %1%==features CALL :features
-if %1%==model call :model
-if %1%==visualizations call :visualizations
-if %1%==report call :report
-if %1%==build CALL :build
-
-
-
-@REM Delete all compiled Python files
-if %1%==clean (
-	@REM 	find . -type f -name "*.py[co]" -delete
-	@REM 	find . -type d -name "__pycache__" -delete
-	@REM 	find . -name "*.pdf" -delete
-	@REM 	find . -name "*.pkl" -delete
-	@REM 	find . -name "*.csv" -delete
-	@REM 	find . -name "*.data" -delete
-	@REM 	find . -name "*.names" -delete
-	@REM 	find . -name "*.log" -delete
-	@REM 	find . -name "*.aux" -delete
-)
