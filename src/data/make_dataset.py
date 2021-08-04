@@ -8,15 +8,15 @@ import pandas as pd
 import requests
 
 
-def download_external(url, path):
+def download_external(url, out_path):
     logging.info('Download Starting')
 
     r = requests.get(url)
 
     # this will take only -1 splitted part of the url
-    filename = url.split(os.path.sep)[-1]
-
-    with open(os.path.join(path, filename), 'wb') as output_file:
+    filename = url.split("/")[-1]
+    
+    with open(os.path.join(out_path, filename), 'wb') as output_file:
         output_file.write(r.content)
 
     logging.info('Download Completed')
