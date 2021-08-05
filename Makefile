@@ -60,7 +60,7 @@ clean:
 	find . -name "*.names" -delete
 	find . -name "*.log" -delete
 	find . -name "*.aux" -delete
-	find . -name ".gitkeep" -delete
+# find . -name ".gitkeep" -delete
 
 
 
