@@ -9,12 +9,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 
-import pickle
-
-
-def load_pickle(filename):
-    filehandler = open(filename, 'rb')
-    return pickle.load(filehandler)
+from src.utilities.utilities import load_pickle
 
 
 @click.command()
@@ -32,9 +27,9 @@ def main(data_filepath, model_filepath):
     Y_validation = load_pickle(join(data_filepath, "Y_validation.pkl"))
 
     predictions = LRmodel.predict(X_validation)
-    print(accuracy_score(Y_validation, predictions))
-    print(confusion_matrix(Y_validation, predictions))
-    print(classification_report(Y_validation, predictions))
+    logging.info(accuracy_score(Y_validation, predictions))
+    logging.info(confusion_matrix(Y_validation, predictions))
+    logging.info(classification_report(Y_validation, predictions))
 
 
 if __name__ == '__main__':

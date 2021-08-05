@@ -6,12 +6,7 @@ from os.path import join
 from dotenv import find_dotenv, load_dotenv
 from sklearn.model_selection import train_test_split
 import pandas as pd
-import pickle
-
-
-def save_pickle(filename, object):
-    filehandler = open(filename, 'ab')
-    pickle.dump(object, filehandler)
+from src.utilities.utilities import save_pickle
 
 
 @click.command()

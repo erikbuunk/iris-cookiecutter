@@ -8,25 +8,13 @@ import logging
 from pathlib import Path
 from os.path import join
 from dotenv import find_dotenv, load_dotenv
-import pickle
-from sklearn.linear_model import LogisticRegression
-
-
-def load_pickle(filename):
-    filehandler = open(filename, 'rb')
-    return pickle.load(filehandler)
-
-
-def save_pickle(filename, object):
-    filehandler = open(filename, 'ab')
-    pickle.dump(object, filehandler)
 
 
 @click.command()
 @click.argument('input_filepath', type=click.Path())
 @click.argument('output_filepath', type=click.Path())
 def main(input_filepath, output_filepath):
-    """ visualsl
+    """ visuals
     """
     logger = logging.getLogger(__name__)
     logger.info('visuals model')

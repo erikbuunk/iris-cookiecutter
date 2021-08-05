@@ -5,21 +5,7 @@ from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 import os
 import pandas as pd
-import requests
-
-
-def download_external(url, out_path):
-    logging.info('Download Starting')
-
-    r = requests.get(url)
-
-    # this will take only -1 splitted part of the url
-    filename = url.split("/")[-1]
-    
-    with open(os.path.join(out_path, filename), 'wb') as output_file:
-        output_file.write(r.content)
-
-    logging.info('Download Completed')
+from src.utilities.utilities import download_external
 
 
 @click.command()
@@ -32,7 +18,7 @@ def main(external_filepath, raw_filepath, interim_filepath):
     """
     logger = logging.getLogger(__name__)
     logger.info('Downloading and processing data set')
-
+    logger.info('path: ' + os.path.dirname(__file__))  # src/data
     # download data
     base_url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/'
     download_external(base_url + 'iris.data', external_filepath)

@@ -4,18 +4,9 @@ import logging
 from pathlib import Path
 from os.path import join
 from dotenv import find_dotenv, load_dotenv
-import pickle
+
 from sklearn.linear_model import LogisticRegression
-
-
-def load_pickle(filename):
-    filehandler = open(filename, 'rb')
-    return pickle.load(filehandler)
-
-
-def save_pickle(filename, object):
-    filehandler = open(filename, 'ab')
-    pickle.dump(object, filehandler)
+from src.utilities.utilities import load_pickle, save_pickle
 
 
 @click.command()
