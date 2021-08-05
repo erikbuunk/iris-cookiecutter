@@ -13,6 +13,8 @@ Contents:
 
    getting-started
    commands
+   README_copy
+
 
 
 
