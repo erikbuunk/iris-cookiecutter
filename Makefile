@@ -8,8 +8,8 @@ PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME = iris_cookiecutter
 PYTHON_INTERPRETER = python3
 PDFLATEX = /Library/TeX/texbin/pdflatex
-# STATA =
-# R =
+# STATA = /usr/local/stata/xstata-mp
+# R = /usr/bin/R
 
 ifeq (,$(shell which conda))
 HAS_CONDA=False
