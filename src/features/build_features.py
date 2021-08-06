@@ -28,8 +28,8 @@ def main(input_filepath, output_filepath):
     validation_size = 0.20
     seed = 7
 
-    X_train, X_validation, Y_train, Y_validation = train_test_split(X, Y, test_size=validation_size,
-                                                                    random_state=seed)
+    X_train, X_validation, Y_train, Y_validation = \
+        train_test_split(X, Y, test_size=validation_size, random_state=seed)
 
     save_pickle(join(output_filepath, "X_train.pkl"), X_train)
     save_pickle(join(output_filepath, "X_validation.pkl"), X_validation)
