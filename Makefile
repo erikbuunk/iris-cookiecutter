@@ -47,6 +47,10 @@ visualizations:
 report:
 	cd publication; $(PDFLATEX) main.tex
 
+## Sample for running stata script
+stata:
+	$(STATA) /e do src/stata/statajob.do
+
 ## Build everything from scratch
 build: clean requirements data features model visualizations report
 
