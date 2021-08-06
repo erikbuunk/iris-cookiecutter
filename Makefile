@@ -1,15 +1,15 @@
-.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3
+.PHONY: clean data lint requirements
 
 #################################################################################
 # GLOBALS                                                                       #
 #################################################################################
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
-PROFILE = default
 PROJECT_NAME = iris_cookiecutter
 PYTHON_INTERPRETER = python3
 PDFLATEX = /Library/TeX/texbin/pdflatex
+# STATA =
+# R =
 
 ifeq (,$(shell which conda))
 HAS_CONDA=False
@@ -43,13 +43,14 @@ model:
 visualizations:
 	$(PYTHON_INTERPRETER) src/visualization/visualize.py  data/orig results/figures results/tables
 
+## Generate PDF from LateX sources
 report:
 	cd publication; $(PDFLATEX) main.tex
 
-## Build all
+## Build everything from scratch
 build: clean requirements data features model visualizations report
 
-## Delete all compiled Python files
+## Delete compiled Python and other temporary files
 clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
@@ -62,27 +63,10 @@ clean:
 	find . -name "*.aux" -delete
 # find . -name ".gitkeep" -delete
 
-
-
-## Lint using flake8
+## Lint using Flake8 for code checking
 lint:
 	flake8 src
 
-## Upload Data to S3
-sync_data_to_s3:
-ifeq (default,$(PROFILE))
-	aws s3 sync data/ s3://$(BUCKET)/data/
-else
-	aws s3 sync data/ s3://$(BUCKET)/data/ --profile $(PROFILE)
-endif
-
-## Download Data from S3
-sync_data_from_s3:
-ifeq (default,$(PROFILE))
-	aws s3 sync s3://$(BUCKET)/data/ data/
-else
-	aws s3 sync s3://$(BUCKET)/data/ data/ --profile $(PROFILE)
-endif
 
 ## Set up python interpreter environment
 create_environment:
@@ -102,9 +86,12 @@ else
 	@echo ">>> New virtualenv created. Activate with:\nworkon $(PROJECT_NAME)"
 endif
 
-## Test python environment is setup correctly
+## Test if (Python) environment is setup correctly
 test_environment:
 	$(PYTHON_INTERPRETER) test_environment.py
+# TODO: add R and Stata checks
+
+# TODO: Add specific data download/upload scripts
 
 #################################################################################
 # PROJECT RULES                                                                 #
