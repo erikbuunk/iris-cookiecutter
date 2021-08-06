@@ -1,7 +1,10 @@
-setwd("~/Documents/Computer/Python/iris-cookiecutter")
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)>0) {
+    setwd(args[1])
+}
 
 # load dataset
-iris <- read.csv("./data/orig/IRIS.csv")
+iris <- read.csv("data/orig/IRIS.csv")
 
 # create a simple plot
 pdf(file = "./results/figures/r_output.pdf")

@@ -5,6 +5,7 @@
 #################################################################################
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+ROOT = $(shell pwd)
 PROJECT_NAME = iris_cookiecutter
 PYTHON_INTERPRETER = python3
 PDFLATEX = /Library/TeX/texbin/pdflatex
@@ -59,7 +60,7 @@ stata:
 
 ## Sample for running R script
 r:
-	$(R) src/r/main.r
+	$(R) src/r/main.r "$(ROOT)"
 
 
 ## Build everything from scratch
