@@ -12,22 +12,23 @@ from dotenv import find_dotenv, load_dotenv
 
 @click.command()
 @click.argument('input_filepath', type=click.Path())
-@click.argument('output_filepath', type=click.Path())
-def main(input_filepath, output_filepath):
+@click.argument('figures_filepath', type=click.Path())
+@click.argument('tables_filepath', type=click.Path())
+def main(input_filepath, figures_filepath, tables_filepath):
     """ visuals
     """
     logger = logging.getLogger(__name__)
-    logger.info('visuals model')
+    logger.info('visuals model and tables')
 
     iris = pd.read_csv(join(input_filepath, "IRIS.csv"))
 
     # Pairwise joint plot (scatter matrix)
     sns.pairplot(iris, hue='species', height=3, diag_kind="kde")
-    plt.savefig(join(output_filepath, "figure.pdf"))
+    plt.savefig(join(figures_filepath, "figure.pdf"))
 
     # create and save latex table
     df = iris.head(10)
-    df.to_latex(join(output_filepath, "my_table.tex"))
+    df.to_latex(join(tables_filepath, "my_table.tex"))
 
 
 if __name__ == '__main__':

@@ -28,23 +28,23 @@ requirements: test_environment
 
 ## Make Dataset
 data:
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/external data/raw data/interim
+	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/external data/orig data/intermediate
 
 ## Make Features
 features:
-	$(PYTHON_INTERPRETER) src/features/build_features.py data/interim data/processed
+	$(PYTHON_INTERPRETER) src/features/build_features.py data/intermediate data/final
 
 ## Build Models and Predict
 model:
-	$(PYTHON_INTERPRETER) src/models/train_model.py data/processed models
-	$(PYTHON_INTERPRETER) src/models/predict_model.py data/processed models
+	$(PYTHON_INTERPRETER) src/models/train_model.py data/final data/final
+	$(PYTHON_INTERPRETER) src/models/predict_model.py data/final data/final
 
-## Make Data Visualizations
+## Make Data Visualizations and tables
 visualizations:
-	$(PYTHON_INTERPRETER) src/visualization/visualize.py  data/raw reports/figures
+	$(PYTHON_INTERPRETER) src/visualization/visualize.py  data/orig results/figures results/tables
 
 report:
-	cd reports; $(PDFLATEX) main.tex
+	cd publication; $(PDFLATEX) main.tex
 
 ## Build all
 build: clean requirements data features model visualizations report
