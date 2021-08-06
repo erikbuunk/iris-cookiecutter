@@ -8,7 +8,7 @@ PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME = iris_cookiecutter
 PYTHON_INTERPRETER = python3
 PDFLATEX = /Library/TeX/texbin/pdflatex
-# STATA = /usr/local/stata/xstata-mp
+STATA = /usr/local/stata/xstata-mp
 # R = /usr/bin/R
 
 ifeq (,$(shell which conda))
@@ -49,7 +49,7 @@ report:
 
 ## Sample for running stata script
 stata:
-	$(STATA) /e do src/stata/statajob.do
+	$(STATA) /e do src/stata/main.do
 
 ## Build everything from scratch
 build: clean requirements data features model visualizations report
