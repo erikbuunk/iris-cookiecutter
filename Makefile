@@ -8,9 +8,14 @@ PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME = iris_cookiecutter
 PYTHON_INTERPRETER = python3
 PDFLATEX = /Library/TeX/texbin/pdflatex
-STATA = /usr/local/stata/stata-mp -b do
 
-# R = /usr/bin/R
+# Stata3
+STATA = /usr/local/stata/stata-mp -b do
+# R = /usr/bin/Rscript # Stata3
+
+# MacOS
+# STATA = /usr/local/stata/stata-mp -b do
+R = /usr/local/bin/Rscript
 
 ifeq (,$(shell which conda))
 HAS_CONDA=False
@@ -50,10 +55,15 @@ report:
 
 ## Sample for running stata script
 stata:
-	$(STATA) src/stata/main.do 
+	$(STATA) src/stata/main.do
+
+## Sample for running R script
+r:
+	$(R) src/r/main.r
+
 
 ## Build everything from scratch
-build: clean requirements data features model visualizations report
+build: clean requirements data features model visualizations r report
 
 ## Delete compiled Python and other temporary files
 clean:
