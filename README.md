@@ -124,3 +124,18 @@ This will install the libraries and process everything
 
 Markdown support
 https://www.sphinx-doc.org/en/master/usage/markdown.html?highlight=markdown
+
+## make.py
+
+Create a conda environment and installing requirments
+
+```bash
+python make.py create_environment
+python make.py requirements
+```
+
+running jobs
+
+```bash
+python make.py data
+```
