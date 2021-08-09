@@ -6,6 +6,7 @@
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 ROOT = $(shell pwd)
+# LOG = $(ROOT)/results/log
 PROJECT_NAME = iris_cookiecutter
 PYTHON_INTERPRETER = python3
 PDFLATEX = /Library/TeX/texbin/pdflatex
@@ -52,7 +53,7 @@ visualizations:
 
 ## Generate PDF from LateX sources
 report:
-	cd publication; $(PDFLATEX) main.tex
+	cd $(ROOT)/publication; $(PDFLATEX) LateX-template.tex
 
 ## Sample for running stata script
 stata:
@@ -70,14 +71,22 @@ build: clean requirements data features model visualizations r report
 clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
-	find . -name "*.pdf" -delete
+# find . -name "*.pdf" -delete
 	find . -name "*.pkl" -delete
 	find . -name "*.csv" -delete
 	find . -name "*.data" -delete
 	find . -name "*.names" -delete
 	find . -name "*.log" -delete
 	find . -name "*.aux" -delete
-# find . -name ".gitkeep" -delete
+	find . -name "*.bbl" -delete
+	find . -name "*.bcf" -delete
+	find . -name "*.blg" -delete
+	find . -name "*.nav" -delete
+	find . -name "*.out" -delete
+	find . -name "*.run.xml" -delete
+	find . -name "*.snm" -delete
+	find . -name "*.synctex.gz" -delete
+	find . -name "*.toc" -delete
 
 ## Lint using Flake8 for code checking
 lint:

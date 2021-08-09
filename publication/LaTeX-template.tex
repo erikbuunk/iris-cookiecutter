@@ -11,7 +11,7 @@
 \begin{minipage}{0.3\textwidth}
     \begin{center}
     \vspace{0.1cm}
-    XXX YYY$^{a}$
+    {{firstname lastname}}$^{a}$
     \vspace{0.6cm}
     \end{center}
 \end{minipage}
@@ -104,15 +104,29 @@ This is the conclusion. The introduction is in section \ref{sec:intro}.
 %\setcounter{page}{1}
 
 
-
+\begin{figure}[htb]
+    \centering
+    \caption{Title of figure}\label{fig:figure_name}
+    \vspace{2mm}
+    \includegraphics[width=0.7\linewidth]{../results/figures/figure.pdf}
+    \legend{\footnotesize{\textbf{Notes:} XXX}}
+    \end{figure}
 
 
 
 \clearpage
 \section{Appendix: Tables}
 
-
-
+\begin{table}[htb]
+    \vspace{0.5cm}
+    \caption{Summary statistics}
+    \label{tab:sumstat}
+    \renewcommand{\arraystretch}{1.3}
+    \small
+    \begin{center}
+    \input{../results/tables/my_table}
+    \end{center}
+    \end{table}
 
 
 \end{appendix}
@@ -143,4 +157,4 @@ This is the conclusion. The introduction is in section \ref{sec:intro}.
 %\input{tables/sumstat.tex}
 %\end{center}
 %\notes{XXX.}
-%\end{table
+%\end{table}
