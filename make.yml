@@ -1,31 +1,31 @@
 - argument: requirements
-  help: "Install requirements"
+  help: Install requirements
 - argument: data
-  help: "retrieve the data"
+  help: Retrieve the data
 - argument: clean
-  help: "Delete temporary data"
+  help: Delete temporary data
 - argument: test_environment
   help: Test if the correct version of Python is found
 - argument: create_environment
   help: Create an conda-environment with PROJECT_NAME
 - argument: install_requirements
-  help: Install requirments
+  help: Install requirements
 - argument: clean
   help: Delete temporary files
 - argument: lint
-  help: Check python code for layour errors
+  help: Check python code for layout errors
 - argument: data
-  help: Make Dataset
+  help: Download datasets
 - argument: features
-  help: Make Features
+  help: Make features
 - argument: model
-  help: Build Models and Predict
+  help: Build models and predict
 - argument: visualizations
-  help: Make Data Visualizations and tables
+  help: Make data visualizations and tables
 - argument: report
   help: Generate PDF from LateX sources
 - argument: stata
-  help: Sample for running stata script
+  help: Sample for running Stata script
 - argument: r
   help: Sample for running R script
 - argument: get_data
