@@ -55,87 +55,76 @@ Demo project of cookiecutter for iris project
 
 # Steps
 
-## Prereq
+## Prerequisites
 
-- 1. Anaconda + python3
+1. python3
+2. Anaconda or conda
+3. update conda (`conda update -n base -c defaults conda`)
 
-## Project initialization
-
+<!-- ## Project initialization
+(For cookiecutter)
 ```
 cookiecutter https://github.com/drivendata/cookiecutter-data-science
 cd iris_cookiecutter
+``` -->
+
+                                                    ## make.py
+
+make.py is the equivalent of Make on Unix and is the starting point of running all the processes within the project
+
+in the directory run
+
+```bash
+python make.py <commmand>
 ```
 
-## Environment
+## Creating the python environment
 
-- edit requirements.txt
+Create a conda environment and installing requirements
 
-- create environment
-
-```
-make create_environment
-source activate iris_cookiecutter
-
+```bash
+python make.py test_environment # Test if python is installed
+python make.py create_environment # Create the conda environment wi
+python make.py requirements # install the required libraries and the local module (in the `src` directory)
 ```
 
-## Running processes
+```
+conda create -n iris-cookiecutter
+conda activate iris-cookiecutter
+pip install -r requirements.txt
+```
 
-Use `make`
+## running replication
+
+
+```bash
+python make.py build # runs all the jobs necessary for replication
+```
+
+
+## running separate jobs
+
+
+Use `python make.py <rule>`
 
 ```
 Available rules:
-
-build               Build all
-clean               Delete all compiled Python files
+build               Build all (runs multiple command for replicatation)
+clean               Delete all compiled temporary files
 create_environment  Set up python interpreter environment
 data                Make Dataset
 features            Make Features
 lint                Lint using flake8
 model               Build Models and Predict
 requirements        Install Python Dependencies
-sync_data_from_s3   Download Data from S3
-sync_data_to_s3     Upload Data to S3
 test_environment    Test python environment is setup correctly
 visualizations      Make Data Visualizations
+report              Create PDF from Latex Sources
 ```
 
-# Step for reproduction
-
-1. clone the project
-2. update GLOBAL in Makefile
-
-3. create virtual environment
-
-```bash
-make create_environment
-```
-
-> conda activate ??
-
-4. run the project
-
-```bash
-make build
-```
-
-This will install the libraries and process everything
 
 ## Changes:
 
 Markdown support
 https://www.sphinx-doc.org/en/master/usage/markdown.html?highlight=markdown
 
-## make.py
-
-Create a conda environment and installing requirments
-
-```bash
-python make.py create_environment
-python make.py requirements
-```
-
-running jobs
-
-```bash
-python make.py data
-```
