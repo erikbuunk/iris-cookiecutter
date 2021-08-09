@@ -1,0 +1,146 @@
+\input{preamble.tex}
+
+
+\begin{document}
+\title{\textbf{Title of the paper}
+\thanks{We acknowledge financial support for the creation of the dataset used in this research by XXX.This study gained a lot from helpful comments given by ZZZ.}}
+
+%Title and author order preliminary :)
+
+\author{
+\begin{minipage}{0.3\textwidth}
+    \begin{center}
+    \vspace{0.1cm}
+    XXX YYY$^{a}$
+    \vspace{0.6cm}
+    \end{center}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+    \begin{center}
+    \vspace{0.1cm}
+    XXX YYY$^{b}$
+    \vspace{0.6cm}
+    \end{center}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+    \begin{center}
+    \vspace{0.1cm}
+    XXX YYY$^{b}$
+    \vspace{0.6cm}
+    \end{center}
+\end{minipage}
+\\[2ex]
+\renewcommand{\parskip}{-5pt}
+\footnotesize $^{a}$  \emph{Max Planck Institute for Innovation and Competition, Munich}\\
+\footnotesize $^{b}$  \emph{Munich School of Management, Ludwig-Maximilians-University (LMU), Munich}\\
+\footnotesize $^{c}$  \emph{Centre for Economic Policy Research (CEPR), London}\\[2ex]
+}
+
+\date{\today}
+\maketitle
+\vspace{5mm}
+\thispagestyle{empty}
+
+% Abstract with subsubsection*:
+\begin{center}
+\subsubsection*{ABSTRACT}
+\end{center}
+{\small
+\it
+The abstract of the paper.
+}
+%
+% Abstract with abstract environment:
+%\begin{abstract}
+%\it
+%The abstract of the paper
+%\end{abstract}
+%
+\vspace{10mm}\\
+\textbf{KEYWORDS:} Citation graph, citation metrics, document importance measure
+\vspace{2mm}\\
+\textbf{JEL Classification:} A12, B34, C56
+
+%\singlespacing
+\onehalfspacing
+%\doublespacing
+\newpage
+\clearpage
+\setcounter{page}{1}
+
+
+\section{Introduction}
+\label{sec:intro}
+
+This is the introduction. This is a citation: \cite{Fehder2014}. Also, \citep{Fehder2014} is a citation type.
+
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+This is the conclusion. The introduction is in section \ref{sec:intro}.
+
+\begin{align}
+	\mu = \frac{1}{N} \sum_{i=1}^N x_i
+\end{align}
+
+
+\clearpage
+
+\bibliographystyle{chicago}
+\bibliography{ref_accelerator}
+
+
+\clearpage
+
+\begin{appendix}
+\section{Appendix: Figures}
+\setcounter{table}{0}
+\renewcommand{\thetable}{A-\arabic{table}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{A-\arabic{figure}}
+%\pagenumbering{roman}
+%\setcounter{page}{1}
+
+
+
+
+
+
+\clearpage
+\section{Appendix: Tables}
+
+
+
+
+
+\end{appendix}
+\end{document}
+
+
+
+% Figure template
+
+%\begin{figure}[htb]
+%\centering
+%\caption{Title of figure}\label{fig:figure_name}
+%\vspace{2mm}
+%\includegraphics[width=0.7\linewidth]{Name_of_file.pdf}
+%\legend{\footnotesize{\textbf{Notes:} XXX}}
+%\end{figure}
+
+
+% Table template
+
+%\begin{table}[htb]
+%\vspace{0.5cm}
+%\caption{Summary statistics}
+%\label{tab:sumstat}
+%\renewcommand{\arraystretch}{1.3}
+%\small
+%\begin{center}
+%\input{tables/sumstat.tex}
+%\end{center}
+%\notes{XXX.}
+%\end{table

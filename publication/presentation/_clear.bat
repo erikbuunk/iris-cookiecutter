@@ -1,0 +1,12 @@
+SET pres="presentation_template"
+del %pres%.aux
+del %pres%.bbl
+del %pres%.bcf
+del %pres%.blg
+del %pres%.log
+del %pres%.nav
+del %pres%.out
+del %pres%.run.xml
+del %pres%.snm
+del %pres%.synctex.gz
+del %pres%.toc
