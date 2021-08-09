@@ -7,13 +7,14 @@ import subprocess
 # GLOBALS                                                                       #
 #################################################################################
 
-ROOT = os.getcwd()
-PROJECT_NAME = "test-project" # this is also conda environment
-PYTHON_INTERPRETER = "python3"
+ROOT = os.getcwd() # complete  path
+PROJECT_NAME = "test-project" # this is also then name of the conda environment
+PYTHON_INTERPRETER = "python3" # Python interpreter.
 
 # PROJECT_NAME = {{cookiecutter.repo_name}}
 # PYTHON_INTERPRETER = {{cookiecutter.python_interpreter}}
 
+# Platform specific settiting
 PLATFORM = platform.system()
 if PLATFORM == "Windows":
     # check local and server (Stata1)
@@ -85,16 +86,20 @@ def report():
 
 def stata():
     """Sample for running stata script"""
-    try: STATA
-    except NameError: print("STATA not present")
-    else: run(f"{STATA} src/stata/main.do")
+    try:
+        STATA
+        run(f"{STATA} src/stata/main.do")
+    except NameError:
+        print("STATA not defined")
 
 
 def r():
     """Sample for running R script"""
-    try: R
-    except NameError: print("R is not defined")
-    else: run(f"{R} src/r/main.r {ROOT}")
+    try:
+        R
+        run(f"{R} src/r/main.r {ROOT}")
+    except NameError:
+        print("R is not defined")
 
 
 
