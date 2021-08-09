@@ -1,0 +1,54 @@
+- argument: requirements
+  help: "Install requirements"
+- argument: data
+  help: "retrieve the data"
+- argument: clean
+  help: "Delete temporary data"
+- argument: test_environment
+  help: Test if the correct version of Python is found
+- argument: create_environment
+  help: Create an conda-environment with PROJECT_NAME
+- argument: install_requirements
+  help: Install requirments
+- argument: clean
+  help: Delete temporary files
+- argument: lint
+  help: Check python code for layour errors
+- argument: data
+  help: Make Dataset
+- argument: features
+  help: Make Features
+- argument: model
+  help: Build Models and Predict
+- argument: visualizations
+  help: Make Data Visualizations and tables
+- argument: report
+  help: Generate PDF from LateX sources
+- argument: stata
+  help: Sample for running stata script
+- argument: r
+  help: Sample for running R script
+- argument: get_data
+  help: "Example: Get data stored somewhere into the project."
+- argument: help
+  help: "Get overview of the arguments"
+- argument: build
+  help: Complete build everything from scratch
+  commands:
+    - clean
+    - test_environment
+    - requirements
+    - data
+    - features
+    - model
+    - visualizations
+    - report
+- argument: partial_build
+  help: Build from preprocessed data.
+  commands:
+    - clean
+    - test_environment
+    - requirements
+    - get_data
+    - visualizations
+    - report

@@ -71,7 +71,6 @@ build: clean requirements data features model visualizations r report
 clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
-# find . -name "*.pdf" -delete
 	find . -name "*.pkl" -delete
 	find . -name "*.csv" -delete
 	find . -name "*.data" -delete

@@ -8,6 +8,7 @@ coverage>=5.5
 flake8>=3.9.2
 python-dotenv>=0.5.1
 myst-parser>=0.15.1
+pyyaml
 
 
 # Project requirements

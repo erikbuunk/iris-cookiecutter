@@ -3,6 +3,8 @@ import sys
 import platform
 import subprocess
 import zipfile
+import yaml
+
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -13,6 +15,7 @@ ROOT = os.getcwd()  # complete  path
 # PYTHON = {{cookiecutter.python_interpreter}}
 PROJECT_NAME = "iris-cookiecutter"  # this is also then name of the conda environment
 PYTHON = "python3"  # Python interpreter.
+arguments = []
 
 # Get the Python version
 if PYTHON == "python":
@@ -58,6 +61,7 @@ else:
 # Helper functions
 ###############################
 
+
 def run(command, activate_conda=False, change_dir=True):
     """
     Run an external command.
@@ -79,6 +83,16 @@ def run(command, activate_conda=False, change_dir=True):
     print(s)
     return(proc_stdout)
 
+
+def delete_files(name):
+    """Cross platform function to delete file with extension"""
+    # Delete compiled Python and other temporary files
+    if PLATFORM == "Windows":
+        run(f"del /s {name}")
+    else:
+        run(f"find . -type f -name '{name}' -delete", activate_conda=False)
+
+
 ###############################
 # make.py argument-functions
 ###############################
@@ -88,6 +102,7 @@ def create_environment():
     print(">>> Detected conda, creating conda environment.")
     run(f"conda create -n {PROJECT_NAME} python={REQUIRED_MAJOR} --yes", activate_conda=False)  #
     print(f">>> New conda env created. Activate with:\n{CONDA_ACTIVATE} {PROJECT_NAME}")
+
 
 def test_environment():
     """
@@ -110,21 +125,12 @@ def test_environment():
         print(">>> Development environment passes all tests!")
 
 
-def install_requirements():
+def requirements():
     """
     Install requirments
     """
     run(f"{PYTHON} -m pip install -U pip setuptools wheel")
     run(f"{PYTHON} -m pip install -r requirements.txt")
-
-
-def delete_files(name):
-    """Cross platform function to delete file with extension"""
-    # Delete compiled Python and other temporary files
-    if PLATFORM == "Windows":
-        run(f"del /s {name}")
-    else:
-        run(f"find . -type f -name '{name}' -delete", activate_conda=False)
 
 
 def clean():
@@ -134,6 +140,7 @@ def clean():
              "*.nav", "*.out", "*run.xml", "*.snm", "*.synctex.gz", "*.toc"]
     for f in files:
         delete_files(f)
+
 
 def lint():
     """Check python code for layour errors"""
@@ -184,8 +191,6 @@ def r():
         print("R is not defined")
 
 
-
-# TODO: Add specific data download/upload scripts
 def get_data():
     """
     Get data stored somewhere into the project.
@@ -196,78 +201,40 @@ def get_data():
     with zipfile.ZipFile("data.zip", 'r') as zip_ref:
         zip_ref.extractall(".")
 
+
 def show_help():
     """Show help instructions"""
-    print("TODO: Instructions")
+    print("Help for make.py\n")
+    print(f"Usage: {PYTHON} make.py <argument>\n")
+    print("With the following value(s) for <argument> (multiple are allowed):\n")
+    for a in arguments:
+        print('{:25s} {:50s}'.format(a['argument'], a['help']))
 
-
-def build():
-    """Comptet build everything from scratch"""
-    print("Staring complete build")
-    clean()
-    test_environment()
-    install_requirements()
-    data()
-    features()
-    model()
-    visualizations()
-    report()
-    print("Finished.")
-
-def partial_build():
-    """
-    Build from preprocessed data.
-    This option can be used if
-    """
-    print("Staring partial build. RAW data is not used!")
-    clean()
-    test_environment()
-    install_requirements()
-    get_data()
-    visualizations()
-    report()
-    print("Finished.")
 
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
 if __name__ == '__main__':
+    with open("make.yml", 'r') as stream:
+        try:
+            arguments = yaml.safe_load(stream)
+
+        except yaml.YAMLError as exc:
+            print(exc)
+
     # No arguments: show Help
     if len(sys.argv) == 1:
         show_help()
 
     # Check the arguments and run them
     for arg in sys.argv[1:]:
-        if(arg == 'requirements'):
-            install_requirements()
-        elif(arg == "data"):
-            data()
-        elif(arg == "features"):
-            features()
-        elif(arg == "model"):
-            model()
-        elif(arg == "visualizations"):
-            visualizations()
-        elif(arg == "report"):
-            report()
-        elif(arg == "r"):
-            r()
-        elif(arg == "stata"):
-            stata()
-        elif(arg == "build"):
-            build()
-        elif(arg == "clean"):
-            clean()
-        elif(arg == "lint"):
-            lint()
-        elif(arg == "create_environment"):
-            create_environment()
-        elif(arg == "test_environment"):
-            test_environment()
-        elif(arg == "get_data"):
-            get_data()
-        elif(arg == "partial_build"):
-            partial_build()
+        items = [x for x in arguments if x['argument'] == arg]
+        if len(items) > 0:
+            if 'commands' in items[0]:
+                for cmd in items[0]['commands']:
+                    locals()[cmd]()
+            else:
+                print(arg)
+                locals()[arg]()
         else:
-            print(f"Error in options: {arg}")
-            break
+            print("argument not valid")
