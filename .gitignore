@@ -92,3 +92,9 @@ target/
 # additional files
 *.aux
 *.pkl
+*.fdb_latexmk
+*.fls
+*.out
+*.data
+*.names
+*.synctex.*
