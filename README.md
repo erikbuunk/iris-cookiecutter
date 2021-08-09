@@ -84,9 +84,22 @@ Create a conda environment and installing requirements
 
 ```bash
 python make.py test_environment # Test if python is installed
-python make.py create_environment # Create the conda environment wi
+python make.py create_environment # Create the conda environment
+```
+
+We have to switch to the new envirnment. <project-name> will be
+```bash
+conda activate <project-name>
+```
+
+
+
+
+```bash
 python make.py requirements # install the required libraries and the local module (in the `src` directory)
 ```
+
+Or run it from the commandline:
 
 ```
 conda create -n iris-cookiecutter

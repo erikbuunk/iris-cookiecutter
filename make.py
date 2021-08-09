@@ -2,19 +2,28 @@ import os
 import sys
 import platform
 import subprocess
+import zipfile
 
 #################################################################################
 # GLOBALS                                                                       #
 #################################################################################
 
-ROOT = os.getcwd() # complete  path
-PROJECT_NAME = "iris-cookiecutter" # this is also then name of the conda environment
-PYTHON = "python3" # Python interpreter.
-
+ROOT = os.getcwd()  # complete  path
 # PROJECT_NAME = {{cookiecutter.repo_name}}
 # PYTHON = {{cookiecutter.python_interpreter}}
+PROJECT_NAME = "iris-cookiecutter"  # this is also then name of the conda environment
+PYTHON = "python3"  # Python interpreter.
 
-# Platform specific settiting
+# Get the Python version
+if PYTHON == "python":
+    REQUIRED_MAJOR = 2
+elif PYTHON == "python3":
+    REQUIRED_MAJOR = 3
+else:
+    print("Unrecognized Python version")
+
+
+# Platform specific settings
 PLATFORM = platform.system()
 if PLATFORM == "Windows":
     # check local and server (Stata1)
@@ -24,8 +33,7 @@ if PLATFORM == "Windows":
     WHICH = "where"
     CONDA_ACTIVATE = "conda activate"
     CMD_SEP = "&&"
-    PATH =  'set PATH="%PATH%;C:\path\to\directory\"'
-elif PLATFORM == "Darwin":  # Macos
+elif PLATFORM == "Darwin":  # MacOS
     PDFLATEX = "/Library/TeX/texbin/pdflatex"
     R = "/usr/local/bin/Rscript"
     WHICH = "which"
@@ -37,8 +45,8 @@ else:  # Linxu/Stata-3
     R = "/usr/bin/Rscript"
     CONDA_ACTIVATE = "source activate"
     CMD_SEP = ";"
-    
 
+# check if we have conda or anaconda installed
 if subprocess.check_output([WHICH, "conda"]):
     HAS_CONDA = True
 else:
@@ -46,18 +54,21 @@ else:
     print("Conda has to be installed")
     exit()
 
+###############################
+# Helper functions
+###############################
 
-def run(command, activate_conda=True, change_dir = True):
+def run(command, activate_conda=False, change_dir=True):
     """
     Run an external command.
     activate_conda will make sure the correct conda environment is used
     change dir will cd into the ROOT directory
     """
     conda = ""
-    if activate_conda == True:
+    if activate_conda:
         conda = f"{CONDA_ACTIVATE} {PROJECT_NAME} {CMD_SEP} "
 
-    if change_dir == True:
+    if change_dir:
         os.chdir(ROOT)
 
     command = conda + command
@@ -67,6 +78,16 @@ def run(command, activate_conda=True, change_dir = True):
     s = ''.join(map(chr, proc_stdout))
     print(s)
     return(proc_stdout)
+
+###############################
+# make.py argument-functions
+###############################
+def create_environment():
+    """Create an conda-environment with PROJECT_NAME"""
+    print(f"Creating environment {PROJECT_NAME}")
+    print(">>> Detected conda, creating conda environment.")
+    run(f"conda create -n {PROJECT_NAME} python={REQUIRED_MAJOR} --yes", activate_conda=False)  #
+    print(f">>> New conda env created. Activate with:\n{CONDA_ACTIVATE} {PROJECT_NAME}")
 
 def test_environment():
     """
@@ -95,6 +116,28 @@ def install_requirements():
     """
     run(f"{PYTHON} -m pip install -U pip setuptools wheel")
     run(f"{PYTHON} -m pip install -r requirements.txt")
+
+
+def delete_files(name):
+    """Cross platform function to delete file with extension"""
+    # Delete compiled Python and other temporary files
+    if PLATFORM == "Windows":
+        run(f"del /s {name}")
+    else:
+        run(f"find . -type f -name '{name}' -delete", activate_conda=False)
+
+
+def clean():
+    """Delete temporary files"""
+    files = ["*.pyc", "__pycache__", "*.pdf", "*.pkl",
+             "*.csv", "*.data", "*.names", "*.log", "*.aux", "*.bbl", "*.blg",
+             "*.nav", "*.out", "*run.xml", "*.snm", "*.synctex.gz", "*.toc"]
+    for f in files:
+        delete_files(f)
+
+def lint():
+    """Check python code for layour errors"""
+    run("flake8 src")
 
 
 def data():
@@ -142,49 +185,25 @@ def r():
 
 
 
-
-
-def delete_files(name):
-    """Cross platform function to delete file with extension"""
-    # Delete compiled Python and other temporary files
-    if PLATFORM =="Windows":
-        run(f"del /s {name}")
-    else:
-        run(f"find . -type f -name '{name}' -delete", activate_conda=False)
-
-def clean():
-    """Delete temporary files"""
-    files = ["*.pyc", "__pycache__", "*.pdf", "*.pkl",
-             "*.csv", "*.data", "*.names", "*.log", "*.aux", "*.bbl", "*.blg",
-             "*.nav", "*.out", "*run.xml", "*.snm", "*.synctex.gz", "*.toc"]
-    for f in files:
-        delete_files(f)
-
-# Lint using Flake8 for code checking
-def lint():
-    """Check python code for layour errors"""
-    run("flake8 src")
-
-
-# Set up python interpreter environment
-def create_environment():
-    """Create an conda-environment with PROJECT_NAME"""
-    print(f"Creating environment {PROJECT_NAME}")
-    version = "3"
-    print(">>> Detected conda, creating conda environment.")
-    run(f"conda create -n {PROJECT_NAME}--yes", activate_conda=False)  # python={version} 
-    print(f">>> New conda env created. Activate with:\nsource activate {PROJECT_NAME}")
-
-
 # TODO: Add specific data download/upload scripts
-
+def get_data():
+    """
+    Get data stored somewhere into the project.
+    1. Extract that cannot be exactley be repeated (Webscraping)
+    2. Data that was calculated during long processes on HPC
+    Note: the build_partial functions needs to be adjusted for this.
+    """
+    with zipfile.ZipFile("data.zip", 'r') as zip_ref:
+        zip_ref.extractall(".")
 
 def show_help():
     """Show help instructions"""
     print("TODO: Instructions")
 
+
 def build():
-    """Build everything from scratch"""
+    """Comptet build everything from scratch"""
+    print("Staring complete build")
     clean()
     test_environment()
     install_requirements()
@@ -193,15 +212,31 @@ def build():
     model()
     visualizations()
     report()
+    print("Finished.")
 
+def partial_build():
+    """
+    Build from preprocessed data.
+    This option can be used if
+    """
+    print("Staring partial build. RAW data is not used!")
+    clean()
+    test_environment()
+    install_requirements()
+    get_data()
+    visualizations()
+    report()
+    print("Finished.")
 
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
 if __name__ == '__main__':
+    # No arguments: show Help
     if len(sys.argv) == 1:
         show_help()
 
+    # Check the arguments and run them
     for arg in sys.argv[1:]:
         if(arg == 'requirements'):
             install_requirements()
@@ -229,6 +264,10 @@ if __name__ == '__main__':
             create_environment()
         elif(arg == "test_environment"):
             test_environment()
+        elif(arg == "get_data"):
+            get_data()
+        elif(arg == "partial_build"):
+            partial_build()
         else:
             print(f"Error in options: {arg}")
             break
