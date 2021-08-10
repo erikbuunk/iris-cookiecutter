@@ -13,7 +13,7 @@ import yaml
 ROOT = os.getcwd()  # complete  path
 # PROJECT_NAME = {{cookiecutter.repo_name}}
 # PYTHON = {{cookiecutter.python_interpreter}}
-PROJECT_NAME = "iris-cookiecutter"  # this is also then name of the conda environment
+PROJECT_NAME = "iris-cookiecutter-python"  # this is also then name of the conda environment
 PYTHON = "python3"  # Python interpreter.
 arguments = []
 
