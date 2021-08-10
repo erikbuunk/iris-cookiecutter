@@ -1,82 +1,18 @@
-# iris_cookiecutter
+# iris-cookiecutter-python
 
-Demo project of cookiecutter for iris project
+Demo project of the cookiecutter-data-science for iris project and adjusted for use at our institute
 
-## Project Organization
+<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>.</small></p>
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
-
----
-
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
-
-# Steps
+# Installation and running
 
 ## Prerequisites
 
 1. python3
-2. Anaconda or conda
-3. update conda (`conda update -n base -c defaults conda`)
-
-<!-- ## Project initialization
-(For cookiecutter)
-```
-cookiecutter https://github.com/drivendata/cookiecutter-data-science
-cd iris_cookiecutter
-``` -->
-
-                                                    ## make.py
-
-make.py is the equivalent of Make on Unix and is the starting point of running all the processes within the project
-
-in the directory run
-
-```bash
-python make.py <commmand>
-```
+2. conda: Anaconda, miniconda
+3. git
+4. make sure to update conda (`conda update -n base -c defaults conda`)
+5. commandline (cmd on window and Terminal with bash or zsh)
 
 ## Creating the python environment
 
@@ -87,57 +23,100 @@ python make.py test_environment # Test if python is installed
 python make.py create_environment # Create the conda environment
 ```
 
-We have to switch to the new envirnment. <project-name> will be
+We have to switch to the new environment with the PROJECT_NAME. We have to do it manually from the command line
+
 ```bash
 conda activate <project-name>
 ```
 
-
-
+After this install the requirements:
 
 ```bash
 python make.py requirements # install the required libraries and the local module (in the `src` directory)
 ```
 
-Or run it from the commandline:
+Alternatively you can run it from the commandline:
 
-```
-conda create -n iris-cookiecutter
-conda activate iris-cookiecutter
+```bash
+conda create -n iris-cookiecutter-python
+conda activate iris-cookiecutter-python # or sourc activate ...
 pip install -r requirements.txt
 ```
 
-## running replication
+# Running jobs
 
+## Running complete replication
 
 ```bash
 python make.py build # runs all the jobs necessary for replication
 ```
 
-
-## running separate jobs
-
+## Running separate jobs
 
 Use `python make.py <rule>`
 
 ```
-Available rules:
-build               Build all (runs multiple command for replicatation)
-clean               Delete all compiled temporary files
-create_environment  Set up python interpreter environment
-data                Make Dataset
-features            Make Features
-lint                Lint using flake8
-model               Build Models and Predict
-requirements        Install Python Dependencies
-test_environment    Test python environment is setup correctly
-visualizations      Make Data Visualizations
-report              Create PDF from Latex Sources
+Usage: python3 make.py <argument>
+
+With the following value(s) for <argument> (multiple are allowed):
+
+requirements              Install requirements
+data                      Retrieve the data
+clean                     Delete temporary data
+test_environment          Test if the correct version of Python is found
+create_environment        Create an conda-environment with PROJECT_NAME
+install_requirements      Install requirements
+clean                     Delete temporary files
+lint                      Check python code for layout errors
+data                      Download datasets
+features                  Make features
+model                     Build models and predict
+visualizations            Make data visualizations and tables
+report                    Generate PDF from LateX sources
+stata                     Sample for running Stata script
+r                         Sample for running R script
+get_data                  Example: Get data stored somewhere into the project.
+help                      Get overview of the arguments
+build                     Complete build everything from scratch
+partial_build             Build from preprocessed data. (copies data.zip to data directory)
 ```
 
+Jobs are defined in make.yml, a file used by make.py
 
-## Changes:
+# Project Organization
 
-Markdown support
-https://www.sphinx-doc.org/en/master/usage/markdown.html?highlight=markdown
-
+```
+├── LICENSE             <-- License file
+├── Makefile            <-- original make file>
+├── README.md
+├── data                <- all data
+│   ├── external        <- Data from third party sources.
+│   ├── intermediate    <- Intermediate data that has been transformed.
+│   ├── final           <-- The final, canonical data sets for modeling or report
+│   └── orig            <- The original, immutable data dump. (make this read only)
+├── data.zip            <-- helper file.  If it is not feasible to do calculations or data sources change
+├── docs                <- A default Sphinx project; see sphinx-doc.org for detail
+├── Makefile            <- Makefile with commands like `make data` (NOT USED, but kept as reference)
+├── make.py             <- Main file to run the processes
+├── make.yml            <- File that defines the options of `make.py`
+├── notebooks           <- Exploratory notebooks
+├── publication         <- Final publication (PDF or Latex)
+├── requirements.txt    <- libraries to be loaded
+├── results             <- Results that will be used in the final results, also logfiles
+│   ├── figures
+│   ├── log
+│   └── tables
+├── setup.py            <- script that is used so that src is a python module/package.
+│                          It makes project pip installable (pip install -e .) so src can be imported
+├── src                 <- all source code and scripts
+    │   ├── __init__.py <- Makes src a Python module
+│   ├── data            <- Scripts to download or generate data
+│   ├── features        <- feature creation (data wrangling)
+│   ├── models          <- training of machine learning model and predictions
+│   ├── r               <- example script for running R
+│   ├── stata           <- example script for running Stata
+│   ├── utilities       <- helper functions. You can see how these are references in other scripts
+│   └── visualization   <- visualizations and tex exports of tables
+├── src.egg-info        <- module information
+└── tox.ini             <- tox file with settings for running tox; see tox.readthedocs.io
+```
