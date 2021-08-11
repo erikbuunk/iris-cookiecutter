@@ -3,6 +3,7 @@
 # retrievee commandline argument for setting the working directory
 args = commandArgs(trailingOnly=TRUE)
 if (length(args)>0) {
+    print(args[1])
     setwd(args[1])
 }
 

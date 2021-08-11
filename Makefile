@@ -4,11 +4,12 @@
 # GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+# PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 ROOT = $(shell pwd)
+
 # LOG = $(ROOT)/results/log
 PROJECT_NAME = iris_cookiecutter
-PYTHON_INTERPRETER = python3
+PYTHON_INTERPRETER = cmd C:\Users\erik\AppData\Local\Microsoft\WindowsApps\python.exe 
 PDFLATEX = /Library/TeX/texbin/pdflatex
 
 # Stata3
@@ -19,11 +20,11 @@ STATA = /usr/local/stata/stata-mp -b do
 # STATA = /usr/local/stata/stata-mp -b do
 R = /usr/local/bin/Rscript
 
-ifeq (,$(shell which conda))
-HAS_CONDA=False
-else
-HAS_CONDA=True
-endif
+# ifeq (,$(shell which conda))
+# HAS_CONDA=False
+# else
+# HAS_CONDA=True
+# endif
 
 #################################################################################
 # COMMANDS                                                                      #

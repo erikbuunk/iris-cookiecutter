@@ -10,7 +10,7 @@ def download_external(url, path):
     r = requests.get(url)
 
     # this will take only -1 splitted part of the url
-    filename = url.split(os.path.sep)[-1]
+    filename = url.split("/")[-1]
 
     with open(os.path.join(path, filename), 'wb') as output_file:
         output_file.write(r.content)
