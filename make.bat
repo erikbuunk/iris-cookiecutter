@@ -2,32 +2,28 @@
 
 REM Command file for Project
 
-REM GLOBALS
+::#################################################################################
+::# GLOBALS                                                                       #
+::#################################################################################
+
+
+REM LOCAL windows laptop
 SET ROOT=%~dp0
 SET PROJECT_NAME=iris-cookiecutter
 set VENV=venv
 set PYTHON_INTERPRETER=%ROOT%%VENV%\Scripts\python.exe
-set STATA= 
-set PDFLATEX=
+set STATA=/usr/local/stata/stata-mp -b do
+SET PDFLATEX=C:\Users\buue\AppData\Local\Programs\MiKTeX\miktex\bin\x64\pdflatex.exe
 set R="C:\Program Files\R\R-4.1.1\bin\RScript"
+
+REM STATA3
+REM
 
 if "%1" == "" goto help
 
-if "%1" == "help" (
-	:help
-	echo.Please use `make ^<target^>` where ^<target^> is one of
-    echo.  create_environment Create a virtual environment
-    echo.  install            Install all the libraries
-    echo.  data               Retrieve data
-    echo.  features
-    echo.  model               
-    echo.  visualizations
-    echo.  report
-    echo.  build
-    echo.  clean
-    echo.  lint
-	goto end
-)
+::#################################################################################
+::# PROJECT RULES                                                                 #
+::#################################################################################
 
 if "%1" == "create_environment" (
     echo create environment %VENV%
@@ -37,7 +33,7 @@ if "%1" == "create_environment" (
     call Scripts\activate
     cd ..
 
-    echo You activate the environment by calling
+    echo You can activate the environment by calling
     echo %VENV%\Scripts\activate
     goto end
 )
@@ -80,7 +76,7 @@ if "%1" == "r" (
 )
 
 if "%1" == "stata" (
-    call %STATA% src/s /qtata/main.do
+    call %STATA% src/stata/main.do
     goto end
 )
 
@@ -106,9 +102,27 @@ if "%1" == "clean" (
 )
 
 if "%1" == "build" (
-    echo "DO EVERTHING"
-    echo "NOT Implemented"
+    echo "Not Implemented"
     goto end
+)
+
+if "%1" == "help" (
+	:help
+	echo.Please use `make ^<target^>` where ^<target^> is one of
+    echo.  build               Build everything from scratch
+    echo.  clean               Delete compiled Python and other temporary files
+    echo.  create_environment  Set up python interpreter environment
+    echo.  data                Make Dataset
+    echo.  features            Make Features
+    echo.  lint                Lint using Flake8 for code checking
+    echo.  model               Build Models and Predict
+    echo.  r                   Sample for running R script
+    echo.  report              Generate PDF from LateX sources
+    echo.  requirements        Install Python Dependencies
+    echo.  stata               Sample for running stata script
+    echo.  test_environment    Test if (Python) environment is setup correctly
+    echo.  visualizations      Make Data Visualizations and tables
+	goto end
 )
 
 :end

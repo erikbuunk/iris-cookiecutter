@@ -1,33 +1,17 @@
-.PHONY: clean data lint requirements
-
 #################################################################################
 # GLOBALS                                                                       #
 #################################################################################
-
-# PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 ROOT = $(shell pwd)
-
-# LOG = $(ROOT)/results/log
 PROJECT_NAME = iris_cookiecutter
-PYTHON_INTERPRETER = cmd C:\Users\erik\AppData\Local\Microsoft\WindowsApps\python.exe 
+PYTHON_INTERPRETER = python3
+
+# STATA3 or MacOS
 PDFLATEX = /Library/TeX/texbin/pdflatex
-
-# Stata3
 STATA = /usr/local/stata/stata-mp -b do
-# R = /usr/bin/Rscript # Stata3
-
-# MacOS
-# STATA = /usr/local/stata/stata-mp -b do
 R = /usr/local/bin/Rscript
 
-# ifeq (,$(shell which conda))
-# HAS_CONDA=False
-# else
-# HAS_CONDA=True
-# endif
-
 #################################################################################
-# COMMANDS                                                                      #
+# PROJECT RULES                                                                 #
 #################################################################################
 
 ## Install Python Dependencies
@@ -115,13 +99,7 @@ endif
 test_environment:
 	$(PYTHON_INTERPRETER) test_environment.py
 # TODO: add R and Stata checks
-
 # TODO: Add specific data download/upload scripts
-
-#################################################################################
-# PROJECT RULES                                                                 #
-#################################################################################
-
 
 
 #################################################################################

@@ -4,6 +4,9 @@ Demo project of the cookiecutter-data-science for iris project and adjusted for 
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>.</small></p>
 
+This is a relative simple setup. The setup does not include depencies or visualizations thereof.
+It is also has it's own implementation
+
 # Installation and running
 
 ## Prerequisites
